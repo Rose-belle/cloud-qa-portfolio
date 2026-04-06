@@ -69,3 +69,21 @@ jobs:
 
       - name: Run tfsec scan
         run: tfsec infrastructure/terraform/ --soft-fail
+
+  trivy:
+    name: Trivy Container Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: docker build -t cloud-qa-tests:latest .
+
+      - name: Run Trivy scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: cloud-qa-tests:latest
+          format: table
+          exit-code: 0
+          severity: CRITICAL,HIGH      
