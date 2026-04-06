@@ -38,7 +38,7 @@ jobs:
       - name: Run Postman collection
         run: newman run postman_collection.json
 
-        checkov:
+  checkov:
     name: Checkov IaC Scan
     runs-on: ubuntu-latest
     steps:
