@@ -37,3 +37,22 @@ jobs:
 
       - name: Run Postman collection
         run: newman run postman_collection.json
+
+        checkov:
+    name: Checkov IaC Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install Checkov
+        run: pip install checkov
+
+      - name: Run Checkov scan
+        run: |
+          checkov -d infrastructure/terraform/ --framework terraform --output cli --soft-fail
