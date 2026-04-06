@@ -56,3 +56,16 @@ jobs:
       - name: Run Checkov scan
         run: |
           checkov -d infrastructure/terraform/ --framework terraform --output cli --soft-fail
+
+  tfsec:
+    name: tfsec IaC Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install tfsec
+        run: curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
+
+      - name: Run tfsec scan
+        run: tfsec infrastructure/terraform/ --soft-fail
